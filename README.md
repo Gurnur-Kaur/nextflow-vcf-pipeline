@@ -20,19 +20,21 @@ This project was created as part of an academic assignment to demonstrate workfl
 
 > Tools can be installed via Conda or Docker if configured in `nextflow.config`.
 
----
 
 ## Project Structure
 
+```
 nextflow_pipeline/
 ├── main.nf
 ├── nextflow.config
 ├── workflows/
-│ └── workflow.nf
+│   └── workflow.nf
 ├── modules/
-│ ├── fastqc.nf
-│ └── cutadapt.nf
+│   ├── fastqc.nf
+│   └── cutadapt.nf
 ├── data/
-│ └── *.fastq.gz
+│   └── *.fastq.gz
 ├── results/
 └── .gitignore
+```
+
