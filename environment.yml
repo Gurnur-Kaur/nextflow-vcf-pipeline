@@ -1,0 +1,9 @@
+name: nextflow-qc
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - nextflow=24.10.6
+  - fastqc=0.12.1
+  - cutadapt=5.2
+  - openjdk
