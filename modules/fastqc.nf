@@ -1,15 +1,17 @@
 process FASTQC {
-
-    publishDir "${params.output}/fastqc", mode: 'copy'
+    tag "${sample_id}"
+    publishDir "${params.outdir}/fastqc", mode: 'copy'
 
     input:
-    path fastq_file
+    tuple val(sample_id), path(r1), path(r2)  // Match workflow tuples
 
     output:
-    path "*_fastqc*"
+    path "*_fastqc.html", emit: html
+    path "*_fastqc.zip", emit: zip
 
     script:
     """
-    ${params.fastqc_bin} ${fastq_file}
+    ${params.fastqc_bin} ${r1} ${r2}
     """
 }
+
