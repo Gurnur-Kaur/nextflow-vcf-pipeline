@@ -10,3 +10,4 @@ data/
 reference_genome/
 work/
 .nextflow/
+data/
