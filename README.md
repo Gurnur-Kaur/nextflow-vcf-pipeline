@@ -55,7 +55,9 @@ BCFtools mpileup + call → VCF
 - Conda/Mamba
 - Paired-end FASTQ (`*_R{1,2}_*.fastq.gz`)
 - Reference genome (FASTA + BWA indices)
-**Tools automatically installed via Conda (bioconda):**
+
+### Tools automatically installed via Conda (bioconda):**
+
 - **FastQC** 0.12.1 - Quality control
 - **Cutadapt** 5.2 - Adapter trimming  
 - **BWA** 0.7.17 - Alignment
