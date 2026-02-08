@@ -1,40 +1,93 @@
-# Nextflow Pipeline: FastQC and Cutadapt
+# Nextflow VCF Calling Pipeline (DSL2)
 
-## Overview
-This repository contains a modular **Nextflow DSL2 pipeline** developed for basic NGS data quality control and preprocessing.
+A modular, reproducible Nextflow pipeline for calling genetic variants.
 
-The pipeline performs:
-1. Quality control of raw FASTQ files using **FastQC**
-2. Adapter and quality trimming using **Cutadapt**
-3. Quality control of trimmed reads using **FastQC**
+## Academic Origin
+> This project was created as part of an academic assignment to demonstrate **workflow automation**, **modular pipeline design**, and **reproducible bioinformatics analysis** using Nextflow DSL2.
 
-This project was created as part of an academic assignment to demonstrate workflow automation, modular pipeline design, and reproducible bioinformatics analysis using Nextflow.
+## Workflow Overview
+```
+Raw FASTQ files
+↓
+FastQC (raw reads)
+↓
+Cutadapt (adapter trimming)
+↓
+FastQC (trimmed reads)
+↓
+BWA-MEM alignment
+↓
+SAMtools sort → BAM
+↓
+SAMtools index (.bai)
+↓
+BCFtools mpileup + call → VCF
 
----
 
-## Requirements
-- Nextflow (>= 22.0)
-- Java (>= 11)
-- FastQC
-- Cutadapt
+## Features
+- ✅ Fully modular DSL2 structure
+- ✅ Automatic Conda environment (`environment.yml`)
+- ✅ Resumable (`-resume`)
+- ✅ Comprehensive QC (pre/post trimming)
+- ✅ Reproducible versions
 
-> Tools can be installed via Conda or Docker if configured in `nextflow.config`.
-
-
-## Project Structure
+## Repository Structure
 
 ```
 nextflow_pipeline/
-├── main.nf
-├── nextflow.config
-├── workflows/
-│   └── workflow.nf
-├── modules/
-│   ├── fastqc.nf
-│   └── cutadapt.nf
-├── data/
-│   └── *.fastq.gz
-├── results/
-└── .gitignore
+├── main.nf # Entry point
+├── workflows/workflow.nf 
+├── modules/ # Processes
+│ ├── fastqc.nf
+│ ├── cutadapt.nf
+│ ├── bwa.nf
+│ ├── samtools_sort.nf
+│ ├── samtools_index.nf
+│ └── bcftools.nf
+├── environment.yml # Conda deps
+└── .gitignore # Ignore data/work
 ```
 
+## Requirements
+- Nextflow ≥ 24.10
+- Conda/Mamba
+- Paired-end FASTQ (`*_R{1,2}_*.fastq.gz`)
+- Reference genome (FASTA + BWA indices)
+**Tools automatically installed via Conda (bioconda):**
+- **FastQC** 0.12.1 - Quality control
+- **Cutadapt** 5.2 - Adapter trimming  
+- **BWA** 0.7.17 - Alignment
+- **Samtools** 1.20 - BAM/SAM processing
+- **BCFtools** 1.20 - Variant calling
+
+## Quick Start
+```
+# Clone
+git clone https://github.com/Gurnur-Kaur/nextflow-vcf-pipeline.git
+cd nextflow-vcf-pipeline
+
+# Conda env
+conda env create -f environment.yml
+conda activate bnf  
+
+# Place files
+data/
+├── sample_R1.fastq.gz
+└── sample_R2.fastq.gz
+reference_genome/
+└── hg38_chr22.fa + indices
+
+# Run
+nextflow run main.nf \
+  --reads data \
+  --genome reference_genome/hg38_chr22.fa \
+  --outdir results \
+  
+# Output Structure
+
+results/
+├── fastqc/          # QC HTML/ZIP
+├── trimmed/         # Clean FASTQ
+├── alignments/      # SAM files
+├── bams/            # Sorted BAM + .bai
+└── vcf/             # Final VCFs
