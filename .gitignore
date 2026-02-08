@@ -1,13 +1,21 @@
+# Nextflow work directories
 work/
 .nextflow*
-.trace
+results/
+
+# Nextflow reports
+trace.txt
 timeline.html
 report.html
-results/
+dag.html
+
+# Logs
 *.log
 
+# Input data (optional – if users supply their own)
 data/
 reference_genome/
-work/
-.nextflow/
-data/
+
+# Accidental output folder
+null
+
