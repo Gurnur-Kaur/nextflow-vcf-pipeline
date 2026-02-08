@@ -3,7 +3,8 @@
 A modular, reproducible Nextflow pipeline for calling genetic variants.
 
 ## Academic Origin
-> This project was created as part of an academic assignment to demonstrate **workflow automation**, **modular pipeline design**, and **reproducible bioinformatics analysis** using Nextflow DSL2.
+**Academic Note:**  
+This project was created as part of an academic assignment to demonstrate workflow automation and modular pipeline design.
 
 ## Workflow Overview
 ```
@@ -22,7 +23,7 @@ SAMtools sort → BAM
 SAMtools index (.bai)
 ↓
 BCFtools mpileup + call → VCF
-
+```
 
 ## Features
 - ✅ Fully modular DSL2 structure
@@ -32,20 +33,21 @@ BCFtools mpileup + call → VCF
 - ✅ Reproducible versions
 
 ## Repository Structure
-
 ```
-nextflow_pipeline/
-├── main.nf # Entry point
-├── workflows/workflow.nf 
-├── modules/ # Processes
-│ ├── fastqc.nf
-│ ├── cutadapt.nf
-│ ├── bwa.nf
-│ ├── samtools_sort.nf
-│ ├── samtools_index.nf
-│ └── bcftools.nf
-├── environment.yml # Conda deps
-└── .gitignore # Ignore data/work
+├── README.md
+├── .gitignore  
+├── environment.yml
+├── main.nf
+├── modules
+│   ├── bcftools.nf
+│   ├── bwa_mem.nf
+│   ├── cutadapt.nf
+│   ├── fastqc.nf
+│   ├── samtools_index.nf
+│   └── samtools_sort.nf
+├── nextflow.config
+└── workflows
+    └── workflow.nf
 ```
 
 ## Requirements
@@ -60,34 +62,45 @@ nextflow_pipeline/
 - **Samtools** 1.20 - BAM/SAM processing
 - **BCFtools** 1.20 - Variant calling
 
+
 ## Quick Start
-```
-# Clone
+
+### Clone Repository
+```bash
 git clone https://github.com/Gurnur-Kaur/nextflow-vcf-pipeline.git
 cd nextflow-vcf-pipeline
+```
 
-# Conda env
+### Conda env
+```bash
 conda env create -f environment.yml
-conda activate bnf  
+conda activate bnf
+```
 
-# Place files
+### Place files
+```
 data/
 ├── sample_R1.fastq.gz
 └── sample_R2.fastq.gz
 reference_genome/
 └── hg38_chr22.fa + indices
+```
 
-# Run
+### Run
+
+```bash
 nextflow run main.nf \
   --reads data \
   --genome reference_genome/hg38_chr22.fa \
   --outdir results \
+```
   
-# Output Structure
-
+### Output Structure
+```
 results/
 ├── fastqc/          # QC HTML/ZIP
 ├── trimmed/         # Clean FASTQ
 ├── alignments/      # SAM files
 ├── bams/            # Sorted BAM + .bai
 └── vcf/             # Final VCFs
+```
